@@ -1,6 +1,6 @@
 //
 //  pebble_defines.h
-//  sonos-pebble
+//  pebble-ex
 //
 //  Created by Paul Bates on 10/5/13.
 //  Copyright (c) 2013 Sonos. All rights reserved.
