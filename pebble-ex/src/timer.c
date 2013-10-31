@@ -9,7 +9,7 @@
 #include "timer.h"
 
 // Maximum number of timers that can be scheduled by an app
-#define TIMER_MAX_TIMERS 4
+#define TIMER_MAX_TIMERS 5
 
 // Tracks scheduled timers
 static Timer* timer_timers[TIMER_MAX_TIMERS];
