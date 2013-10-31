@@ -3,12 +3,12 @@
 Extensions to PebbleSDK to provide missing support and extended user interface elements.
 
 ## Timers ##
-Timer based eventing is available in the [PebbleSDK](https://github.com/pebble/pebblekit) but there is only a single timer callback function and your app needs to utilized timer cookies to know which scheduled timer fired. It would be much better if apps were able to schedule timers with a timeout period and have a handler method for each scheduled timer. Timer ([timer.h](/pebble-ex/src/timer.h)) provides this facility, to a limited extent, making working with custom timers far easier.
+Timer based eventing is available in the [PebbleSDK](https://github.com/pebble/pebblekit), but there is only a single timer callback function and your app needs to utilized timer cookies to know which scheduled timer fired. It would be much better if apps were able to schedule timers with a timeout period and have a handler method for each scheduled timer. **Timer** ([timer.h](/pebble-ex/src/timer.h)) provides this facility, to a limited extent, making working with custom timers far easier.
 
-Timer supports two additional features, one being automatic rescheduling using repeating. A timer context is optionally supported  and passed to the timer hanlder callback function. Contexts allow for all sorts of enhancements, some of which are custom animation timing support. In fact **ActivityLayer** utilizes **Timer** to perform it's animations.
+Timer supports two additional features, one being automatic rescheduling of expired timers - repeating timers. A timer context is optionally supported and passed to the timer hanlder callback function. Contexts allow for all sorts of enhancements, some of which are custom animation timing support. In fact **ActivityLayer** utilizes **Timer** to perform its animations.
 
 ### Using Timers ###
-Timers are utilize the .timer_handler function pointer in **PebbleAppHandlers**. In order for Timers to work your watch app must set timer_handler to **TIMER_APP_TIMER_HANDLER**.
+Timers utilize the *timer_handler* function pointer in **PebbleAppHandlers**. In order for Timers to work your watch app must set *timer_handler* to **TIMER_APP_TIMER_HANDLER** in the watch app's main function.
 
 	#include "pebble_ex.h"
 	
@@ -22,7 +22,7 @@ Timers are utilize the .timer_handler function pointer in **PebbleAppHandlers**.
 		app_event_loop(ctx, &handlers);
 	}
 
-If you must, you can always implement your own **PebbleAppTimerHandler** and call timer_handler() when you do not recognize the timer handler cookie. 
+If you must, you can always implement your own **PebbleAppTimerHandler** and call *timer_handler()* when you do not recognize the passed timer handler cookie. 
 
 ### Using Timers ###
 
@@ -69,6 +69,6 @@ If you must, you can always implement your own **PebbleAppTimerHandler** and cal
 	}
 
 ### Limitations of Timers ###
-There is a limit on the number of timers that can be actively scheduled. Currently this is capped at 5 concurrent timers. This can be adjusted by altering **TIMER_MAX_TIMERS** in [timer.c](/pebble-ex/src/timer.c). The cap was chosen to limit the amount of memory timers use, which is negligible. This does not imply a limit on the number of **Timer**s initialized only those scheduled.
+There is a limit on the number of timers that can be actively scheduled concurrently, currently capped at 5 concurrent timers. This can be adjusted by altering **TIMER_MAX_TIMERS** in [timer.c](/pebble-ex/src/timer.c). The cap was chosen to limit the amount of memory Timers use, which is negligible. This does not imply a limit on the number of **Timer**s initialized only those scheduled.
 
 If you are using [libpebble](https://github.com/pebble/libpebble) to monitor logs, Timer will log an error when the maximum number of timers scheduled has been reached.
