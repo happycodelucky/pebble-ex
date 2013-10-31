@@ -7,7 +7,7 @@ Timer based eventing is available in the [PebbleSDK](https://github.com/pebble/p
 
 Timer supports two additional features, one being automatic rescheduling using repeating. A timer context is optionally supported  and passed to the timer hanlder callback function. Contexts allow for all sorts of enhancements, some of which are custom animation timing support. In fact **ActivityLayer** utilizes **Timer** to perform it's animations.
 
-### Configuring Timers ###
+### Using Timers ###
 Timers are utilize the .timer_handler function pointer in **PebbleAppHandlers**. In order for Timers to work your watch app must set timer_handler to **TIMER_APP_TIMER_HANDLER**.
 
 	#include "pebble_ex.h"
@@ -67,3 +67,8 @@ If you must, you can always implement your own **PebbleAppTimerHandler** and cal
 			flipped = !flipped;
 		}
 	}
+
+### Limitations of Timers ###
+There is a limit on the number of timers that can be actively scheduled. Currently this is capped at 5 concurrent timers. This can be adjusted by altering **TIMER_MAX_TIMERS** in [timer.c](/pebble-ex/src/timer.c). The cap was chosen to limit the amount of memory timers use, which is negligible. This does not imply a limit on the number of **Timer**s initialized only those scheduled.
+
+If you are using [libpebble](https://github.com/pebble/libpebble) to monitor logs, Timer will log an error when the maximum number of timers scheduled has been reached.
